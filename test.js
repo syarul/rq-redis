@@ -1,17 +1,3 @@
-# rq-redis
-reQurse middleware plugin for redis.
-
-
-## usage
-methods:-
-- get
-- find
-- create
-- update
-- getMemberKeys
-- remove
-
-```js
 const rqRedis = require('./index')
 const rq = require('requrse')
 const Redis = require('ioredis')
@@ -43,8 +29,6 @@ rqRedis({
       }
     }
 }, modelOptions).then(r => {
-  console.log(r) // { book: { create: { title: 'Foundation' } } }
+  console.log(r)
   redis.disconnect()
 }, console.error)
-
-```

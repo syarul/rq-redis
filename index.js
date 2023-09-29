@@ -1,11 +1,18 @@
-module.exports = (query, { rq, redis, redisKey, memberKey }) => rq(query, {
+/**
+ * 
+ * @param {*} query 
+ * @param {*} modelOptions 
+ * @returns 
+ */
+module.exports = (query, { rq, redis, redisKey, memberKey, options = {} }) => rq(query, {
   methods: {
     get: 'get,id',
     find: 'find,query',
     create: 'create,data|title', // added a custom key
     update: 'update,id|data|title', // split parameters options
     getMemberKeys: 'getMemberKeys',
-    remove: 'remove,id|title'
+    remove: 'remove,id|title',
+    ...(options.methods ? options.methods : {})
   },
   config: (param) => {
     const redisMethods = {
@@ -72,7 +79,8 @@ module.exports = (query, { rq, redis, redisKey, memberKey }) => rq(query, {
         } catch (error) {
           console.error('Error removing HMSET:', error)
         }
-      }
+      },
+      ...(options.config ? options.config : {})
     }
     return (redisMethods)[param]
   }
