@@ -1,6 +1,6 @@
 {
   "name": "@syarul/rq-redis",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "requrse middleware plugins for redis",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,6 @@
   "devDependencies": {
     "dotenv": "^16.3.1",
     "ioredis": "^5.3.2",
-    "requrse": "^0.1.7"
+    "requrse": "^0.1.8"
   }
 }

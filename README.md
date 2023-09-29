@@ -12,7 +12,7 @@ methods:-
 - remove
 
 ```js
-const rqRedis = require('./index')
+const rqRedis = require('rq-redis')
 const rq = require('requrse')
 const Redis = require('ioredis')
 require('dotenv').config()

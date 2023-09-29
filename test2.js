@@ -5,8 +5,8 @@ require('dotenv').config()
 
 const redis = new Redis(`rediss://default:${process.env.REDIS_KEY}@willing-cowbird-38871.upstash.io:38871`)
 
-const redisKey = 'books'
-const memberKey = 'books_ids'
+const redisKey = 'todos'
+const memberKey = 'todo_ids'
 
 const modelOptions = {
   rq, redis, redisKey, memberKey, options: {
@@ -17,15 +17,6 @@ const modelOptions = {
 
 rqRedis({
     book: {
-      create: {
-        $params: {
-          data: {
-            title: 'Foundation',
-            genre: 'Science Fiction'
-          },
-          title: 1 // this will be used as secondary key
-        },
-        title: 1
-      }
+      getMemberKeys: '*'
     }
 }, modelOptions).then(console.log, console.error)

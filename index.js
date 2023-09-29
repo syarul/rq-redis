@@ -4,7 +4,7 @@
  * @param {*} modelOptions 
  * @returns 
  */
-module.exports = (query, { rq, redis, redisKey, memberKey, options = {} }) => rq(query, {
+const rqRedis = (query, { rq, redis, redisKey, memberKey, options = {} }) => rq(query, {
   methods: {
     get: 'get,id',
     find: 'find,query',
@@ -61,8 +61,8 @@ module.exports = (query, { rq, redis, redisKey, memberKey, options = {} }) => rq
         }
         return newData
       },
-      async getMemberKeys () {
-        return { keys: await redis.smembers(memberKey) }
+      getMemberKeys () {
+        return redis.smembers(memberKey)
       },
       async remove ({ id }) {
         const [, ...secondaryKeys] = [].slice.call(arguments).pop()
@@ -85,3 +85,6 @@ module.exports = (query, { rq, redis, redisKey, memberKey, options = {} }) => rq
     return (redisMethods)[param]
   }
 })
+
+exports.rqRedis = rqRedis
+module.exports = rqRedis
