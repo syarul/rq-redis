@@ -9,14 +9,15 @@ const redisKey = 'todos'
 const memberKey = 'todo_ids'
 
 const modelOptions = {
-  rq, redis, redisKey, memberKey, options: {
-    methods: {}, // new methods
-    config: {} // new config
-  }
+  rq, redis, redisKey, memberKey
 }
 
 rqRedis({
-    book: {
-      getMemberKeys: '*'
+    todo: {
+      getMemberKeys: {
+        all: {
+          id: 1
+        }
+      },
     }
-}, modelOptions).then(console.log, console.error)
+}, modelOptions).then(r => console.log(JSON.stringify(r)), console.error)

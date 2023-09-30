@@ -11,6 +11,7 @@ const rqRedis = (query, { rq, redis, redisKey, memberKey, options = {} }) => rq(
     create: 'create,data|title', // added a custom key
     update: 'update,id|data|title', // split parameters options
     getMemberKeys: 'getMemberKeys',
+    all: 'all,keys',
     remove: 'remove,id|title',
     ...(options.methods ? options.methods : {})
   },
@@ -61,8 +62,11 @@ const rqRedis = (query, { rq, redis, redisKey, memberKey, options = {} }) => rq(
         }
         return newData
       },
-      getMemberKeys () {
-        return redis.smembers(memberKey)
+      async getMemberKeys () {
+        return { keys: (await redis.smembers(memberKey)).sort() }
+      },
+      async all ({ keys }){
+        return Promise.all(keys.map(id => redisMethods.get({ id })))
       },
       async remove ({ id }) {
         const [, ...secondaryKeys] = [].slice.call(arguments).pop()
@@ -88,3 +92,4 @@ const rqRedis = (query, { rq, redis, redisKey, memberKey, options = {} }) => rq(
 
 exports.rqRedis = rqRedis
 module.exports = rqRedis
+module.exports.default = rqRedis
