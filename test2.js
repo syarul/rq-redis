@@ -16,7 +16,8 @@ rqRedis({
     todo: {
       getMemberKeys: {
         all: {
-          id: 1
+          id: 1,
+          text: 1
         }
       },
     }

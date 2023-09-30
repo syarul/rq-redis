@@ -32,8 +32,11 @@ const rqRedis = (query, { rq, redis, redisKey, memberKey, options = {} }) => rq(
       async create ({ data }) {
         const [, ...secondaryKeys] = [].slice.call(arguments).pop()
         // get current SADD keys
-        const currentKeys = await redis.smembers(memberKey)
-        const nextKey = currentKeys.length
+        const currentKeys = (await redis.smembers(memberKey)).sort()
+        let nextKey = '0'
+        if (currentKeys.length) {
+          nextKey = `${parseInt(currentKeys.pop()) + 1}`
+        }
 
         // use SADD to add each object's ID to a set
         await redis.sadd(memberKey, nextKey)
@@ -63,7 +66,7 @@ const rqRedis = (query, { rq, redis, redisKey, memberKey, options = {} }) => rq(
         return newData
       },
       async getMemberKeys () {
-        return { keys: (await redis.smembers(memberKey)).sort() }
+        return { keys: await redis.smembers(memberKey) }
       },
       async all ({ keys }){
         return Promise.all(keys.map(id => redisMethods.get({ id })))

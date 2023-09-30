@@ -1,6 +1,6 @@
 {
   "name": "@syarul/rq-redis",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "requrse middleware plugins for redis",
   "main": "index.js",
   "scripts": {
